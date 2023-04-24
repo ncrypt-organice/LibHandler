@@ -11,9 +11,9 @@ The maintainers of the different LibGen Mirrors might limit your traffic or bloc
 | Feature | Description | Status |
 | --- | --- | --- |
 | Books JSON | Get JSON Book Data of the provided IDs.  | 🟢 Works
-| Multiple Mirrors | Use the optimal Mirror for searching and downloading. | 🟡 Works, but there is only one download mirror and a handful of normal mirrors and the system is not very flexible
+| Multiple Mirrors | Use the optimal Mirror for searching and downloading. | 🟢 Works
 | Search (Title, Author, ...) | Search for books with certain filters | 🟡 Works, but hasn't been tested with all filters yet
-| Downloads | Download books | 🟡 Works, but only with the MD5 Hash of the book and through library.lol
+| Downloads | Download books | 🟡 Works, but only with the MD5 Hash of the book
 
 ## Usage / Example
 
@@ -49,17 +49,26 @@ string download = LibraryHandler.GetDownloadLink(books[0]);
 
 ### Additional Functions
 ```cs
-// Gets the current Mirror
-Mirror mirror = LibraryHandler.GetCurrentMirror();
+// Gets the current Mirror (The Search and Download Mirror are seperate)
+Mirror mirror = LibraryHandler.GetCurrentMirror(MirrorType.SearchMirror);
 // Sets the current Mirror
 Mirror mirror = new Mirror()
 {
     Url = "libgen.is",
     FullUrl = "https://libgen.is",
-    DownloadUrl = "http://library.lol/",
+    MirrorType = MirrorType.SearchMirror,
+};
+
+Mirror downloadMirror = new Mirror()
+{
+    Url = "library.lol",
+    FullUrl = "http://library.lol",
+    MirrorType = MirrorType.DownloadMirror,
+    Path = "/main/"
 };
 
 LibraryHandler.SetCurrentMirror(mirror);
+LibraryHandler.SetCurrentMirror(downloadMirror);
 ```
 > Mirrors can also be added in the mirrors.json file
 
